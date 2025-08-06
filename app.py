@@ -1,3 +1,10 @@
+import asyncio
+
+try:
+    asyncio.get_event_loop()
+except RuntimeError:
+    asyncio.set_event_loop(asyncio.new_event_loop())
+
 import streamlit as st
 import os
 from langchain_community.document_loaders import PyPDFLoader
@@ -9,8 +16,6 @@ from langchain.chains import RetrievalQA
 
 # Set Gemini API Key from secrets or environment
 def get_api_key():
-    if "GEMINI_API_KEY" in st.secrets:
-        return st.secrets["GEMINI_API_KEY"]
     return os.getenv("GEMINI_API_KEY", None)
 
 api_key = get_api_key()
